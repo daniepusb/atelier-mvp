@@ -15,7 +15,7 @@ interface Props {
 export const TaskList = ({ brandId }: Props) => {
   const [tasks, setTasks] = useState<{ id: string; data: TaskDoc }[]>([]);
 
-  const fetchTacks = async () => {
+  const fetchTasks = async () => {
     const snapshot = await getDocs(collection(db, `brands/${brandId}/tasks`));
     const tasksData = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -25,7 +25,7 @@ export const TaskList = ({ brandId }: Props) => {
   };
 
   useEffect(() => {
-    fetchTacks();
+    fetchTasks();
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -35,7 +35,7 @@ export const TaskList = ({ brandId }: Props) => {
 
   return (
     <div className="mt-6">
-      <h3 className="font-bold text-lg mb-2">Lista de Prendas</h3>
+      <h3 className="font-bold text-lg mb-2">Lista de Tareas</h3>
       <ul className="space-y-2">
         {tasks.map(({ id, data }) => (
           <li

@@ -16,7 +16,6 @@ export default function Register() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
 
-      // Guardamos el usuario con rol en Firestore
       await setDoc(doc(db, "usuarios", uid), {
         email,
         rol,
@@ -24,7 +23,7 @@ export default function Register() {
 
       alert("Usuario registrado ✅");
     } catch (err) {
-      alert("Error al registrar: " + err.message);
+      alert("Error al registrar: " + (err as Error).message);
     }
     setLoading(false);
   };

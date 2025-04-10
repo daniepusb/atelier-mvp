@@ -1,8 +1,8 @@
 import { AppUser } from "../types/UserRole";
-import { ItemForm } from "../components/Admin/ItemForm";
-import { ItemList } from "../components/Admin/ItemList";
-import { TaskForm } from "../components/Admin/TaskForm";
-import { TaskList } from "../components/Admin/TaskList";
+import { ItemForm } from "../components/admin/ItemForm";
+import { ItemList } from "../components/admin/ItemList";
+import { TaskForm } from "../components/admin/TaskForm";
+import { TaskList } from "../components/admin/TaskList";
 
 const brandId = "M1";
 

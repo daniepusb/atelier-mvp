@@ -3,11 +3,15 @@ import { auth, db } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
-export default function Login({ onLogin }) {
+interface LoginProps {
+  onLogin: (userData: { rol: string }) => void;
+}
+
+export default function Login({ onLogin }: Readonly<LoginProps>) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -16,10 +20,10 @@ export default function Login({ onLogin }) {
       const userDoc = await getDoc(doc(db, "usuarios", uid));
       const userData = userDoc.data();
 
-      alert("Login exitoso ✅ Rol: " + userData.rol);
-      onLogin(userData.rol); // podés manejar navegación acá
+      alert("Login exitoso ✅ Rol: " + userData?.rol);
+      onLogin(userData?.rol);
     } catch (err) {
-      alert("Error al ingresar: " + err.message);
+      alert("Error al ingresar: " + (err as Error).message);
     }
   };
 
