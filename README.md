@@ -1,6 +1,6 @@
 # Atelier MVP
 ## Quick Start
-Create a `src/firebaseConfig.js` file. You can copy from `firebaseConfig.js.example` file
+Create a `/.evn` file. You can copy from `.env.example` file
 
 Run `npm install` to install dependencies
 ```sh
