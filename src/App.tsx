@@ -1,22 +1,23 @@
-import { useEffect } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth, db } from "./firebaseConfig";
+import { useState } from "react";
+import { AppUser } from "./types/UserRole";
+import { LoginForm } from "./components/Auth/LoginForm";
+import { RegisterForm } from "./components/Auth/RegisterForm";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      console.log("Usuario actual:", user);
-    });
+  const [user, setUser] = useState<AppUser | null>(null);
 
-    return () => unsubscribe(); // Limpieza del observer
-  }, []);
+  if (!user) {
+    return (
+      <div className="max-w-md mx-auto mt-10">
+        <RegisterForm />
+        <hr className="my-6" />
+        <LoginForm onLogin={setUser} />
+      </div>
+    );
+  }
 
-  return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold">Atelier MVP</h1>
-      <p className="text-gray-500">Firebase está conectado ✅</p>
-    </div>
-  );
+  return <Dashboard user={user} />;
 }
 
 export default App;
