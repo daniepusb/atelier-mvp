@@ -4,8 +4,10 @@ import { ItemList } from "../components/admin/ItemList";
 import { TaskForm } from "../components/admin/TaskForm";
 import { TaskList } from "../components/admin/TaskList";
 
-import { ClientForm } from "../components/Clients/ClientForm";
-import { ClientList } from "../components/Clients/ClientList";
+import { ClientForm } from "../components/clients/ClientForm";
+import { ClientList } from "../components/clients/ClientList";
+
+import { BudgetForm } from "../components/budget/BudgetForm";
 
 const brandId = "M1";
 
@@ -27,6 +29,7 @@ export const Dashboard = ({ user }: { user: AppUser }) => {
         <>
           <ClientForm brandId="M1" userId={user.uid} />
           <ClientList brandId="M1" />
+          <BudgetForm brandId={brandId} />
         </>
       )}
     </div>
