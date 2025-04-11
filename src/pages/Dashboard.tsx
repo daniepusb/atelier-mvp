@@ -4,6 +4,9 @@ import { ItemList } from "../components/admin/ItemList";
 import { TaskForm } from "../components/admin/TaskForm";
 import { TaskList } from "../components/admin/TaskList";
 
+import { ClientForm } from "../components/Clients/ClientForm";
+import { ClientList } from "../components/Clients/ClientList";
+
 const brandId = "M1";
 
 export const Dashboard = ({ user }: { user: AppUser }) => {
@@ -21,7 +24,10 @@ export const Dashboard = ({ user }: { user: AppUser }) => {
       )}
 
       {user.role === "trabajador" && (
-        <p>Próximo paso: crear presupuestos para clientes</p>
+        <>
+          <ClientForm brandId="M1" userId={user.uid} />
+          <ClientList brandId="M1" />
+        </>
       )}
     </div>
   );

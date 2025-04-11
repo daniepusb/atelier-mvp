@@ -35,6 +35,7 @@ export interface ClientDoc {
   };
   photos: string[];
   createdAt: Date;
+  createdBy: string;
 }
 
 
