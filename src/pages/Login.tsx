@@ -1,59 +1,58 @@
 import { useState } from "react";
-import { auth, db } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import { AppUser } from "../types/UserRole";
 
-interface LoginProps {
-  onLogin: (userData: { rol: string }) => void;
-}
-
-export default function Login({ onLogin }: Readonly<LoginProps>) {
+export const LoginForm = ({ onLogin }: { onLogin: (user: AppUser) => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
 
-      const userDoc = await getDoc(doc(db, "usuarios", uid));
-      const userData = userDoc.data();
+      const docRef = doc(db, "users", uid);
+      const userSnap = await getDoc(docRef);
 
-      alert("Login exitoso ✅ Rol: " + userData?.rol);
-      onLogin(userData?.rol);
-    } catch (err) {
-      alert("Error al ingresar: " + (err as Error).message);
+      if (userSnap.exists()) {
+        const data = userSnap.data() as AppUser;
+        const fullUser = { ...data, uid };
+        onLogin(fullUser);
+        alert("Login exitoso ✅");
+      } else {
+        alert("No se encontró información del usuario.");
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      alert("Credenciales incorrectas.");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">Iniciar sesión</h2>
-      <form onSubmit={handleLogin} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          required
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-2 rounded"
-        />
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Iniciar sesión
-        </button>
-      </form>
+    <div className="space-y-4 p-4 max-w-md mx-auto">
+      <h2 className="text-xl font-bold text-center">Iniciar sesión</h2>
+      <input
+        className="border p-2 w-full rounded"
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className="border p-2 w-full rounded"
+        type="password"
+        placeholder="Contraseña"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button
+        onClick={handleLogin}
+        className="bg-green-600 text-white px-4 py-2 w-full rounded"
+      >
+        Ingresar
+      </button>
     </div>
   );
-}
+};

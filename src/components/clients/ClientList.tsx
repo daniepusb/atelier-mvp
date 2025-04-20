@@ -4,6 +4,7 @@ import { db } from "../../firebaseConfig";
 
 interface Props {
   brandId: string;
+  userId: string;
 }
 
 export const ClientList = ({ brandId }: Props) => {

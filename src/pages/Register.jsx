@@ -6,7 +6,7 @@ import { doc, setDoc } from "firebase/firestore";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rol, setRol] = useState("trabajador"); // default
+  const [rol, setRol] = useState("trabajador");
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
@@ -16,7 +16,7 @@ export default function Register() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
 
-      await setDoc(doc(db, "usuarios", uid), {
+      await setDoc(doc(db, "users", uid), {
         email,
         rol,
       });

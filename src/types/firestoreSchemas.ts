@@ -41,8 +41,17 @@ export interface ClientDoc {
 
 export interface QuoteDoc {
   clientId: string;
-  itemId: string;
-  taskIds: string[];
+  clientName: string;
+  item: {
+    id: string;
+    name: string;
+    price: number;
+  };
+  tasks: {
+    id: string;
+    name: string;
+    price: number;
+  }[];
   total: number;
   createdBy: string;
   createdAt: Date;

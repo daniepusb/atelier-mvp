@@ -5,9 +5,10 @@ import { BudgetSummary } from "./BudgetSummary";
 
 interface Props {
   brandId: string;
+  userId: string;
 }
 
-export const BudgetForm = ({ brandId }: Props) => {
+export const BudgetForm = ({ brandId, userId }: Props) => {
   const [clients, setClients] = useState<any[]>([]);
   const [items, setItems] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
@@ -91,6 +92,8 @@ export const BudgetForm = ({ brandId }: Props) => {
           client={clients.find((c) => c.id === selectedClient)}
           item={items.find((i) => i.id === selectedItem)}
           tasks={tasks.filter((t) => selectedTasks.includes(t.id))}
+          brandId={brandId}
+          userId={userId}
         />
       )}
     </div>

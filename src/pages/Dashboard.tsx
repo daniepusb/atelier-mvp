@@ -8,28 +8,28 @@ import { ClientForm } from "../components/clients/ClientForm";
 import { ClientList } from "../components/clients/ClientList";
 
 import { BudgetForm } from "../components/budget/BudgetForm";
-
-const brandId = "M1";
+import { QuoteList } from "../components/quotes/QuoteList";
 
 export const Dashboard = ({ user }: { user: AppUser }) => {
+  //console.log('brandID: ' + user.brandId + ' email: ' + user.email + '  role: ' + user.role + '  uid: ' + user.uid);
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Bienvenido {user.role}</h1>
-
       {user.role === "admin" && (
         <div className="space-y-8">
-          <ItemForm brandId={brandId} />
-          <ItemList brandId={brandId} />
-          <TaskForm brandId={brandId} />
-          <TaskList brandId={brandId} />
+          <ItemForm brandId={user.brandId} userId={user.uid} />
+          <ItemList brandId={user.brandId} userId={user.uid} />
+          <TaskForm brandId={user.brandId} userId={user.uid} />
+          <TaskList brandId={user.brandId} userId={user.uid} />
         </div>
       )}
 
       {user.role === "trabajador" && (
         <>
-          <ClientForm brandId="M1" userId={user.uid} />
-          <ClientList brandId="M1" />
-          <BudgetForm brandId={brandId} />
+          <ClientForm brandId={user.brandId} userId={user.uid} />
+          <ClientList brandId={user.brandId} userId={user.uid} />
+          <BudgetForm brandId={user.brandId} userId={user.uid} />
+          <QuoteList  brandId={user.brandId} userId={user.uid} />
         </>
       )}
     </div>

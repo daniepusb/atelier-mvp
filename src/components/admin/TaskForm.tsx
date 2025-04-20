@@ -5,6 +5,7 @@ import { TaskDoc } from "../../types/firestoreSchemas";
 
 interface Props {
   brandId: string;
+  userId?: string;
 }
 
 export const TaskForm = ({ brandId }: Props) => {

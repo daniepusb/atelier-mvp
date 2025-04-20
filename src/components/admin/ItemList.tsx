@@ -10,6 +10,7 @@ import { ItemDoc } from "../../types/firestoreSchemas";
 
 interface Props {
   brandId: string;
+  userId?: string;
 }
 
 export const ItemList = ({ brandId }: Props) => {

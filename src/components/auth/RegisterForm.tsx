@@ -8,6 +8,7 @@ export const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<UserRole>("trabajador");
+  const brandId = "M1";
 
   const handleRegister = async () => {
     try {
@@ -15,6 +16,7 @@ export const RegisterForm = () => {
       const uid = userCredential.user.uid;
 
       await setDoc(doc(db, "users", uid), {
+        brandId,
         email,
         role,
       });

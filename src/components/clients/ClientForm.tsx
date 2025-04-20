@@ -9,7 +9,7 @@ import {
 
 interface Props {
   brandId: string;
-  userId: string; // trabajador actual
+  userId: string;
 }
 
 export const ClientForm = ({ brandId, userId }: Props) => {
@@ -17,6 +17,8 @@ export const ClientForm = ({ brandId, userId }: Props) => {
   const [email, setEmail] = useState("");
   const [measurements, setMeasurements] = useState<Record<string, number>>({});
   const [files, setFiles] = useState<FileList | null>(null);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleMeasurementChange = (field: string, value: number) => {
     setMeasurements((prev) => ({ ...prev, [field]: value }));
@@ -39,29 +41,42 @@ export const ClientForm = ({ brandId, userId }: Props) => {
   };
 
   const handleSubmit = async () => {
-    if (!name) return alert("Falta nombre");
+    setError("");
+    setSuccess("");
 
-    const photoUrls = await uploadPhotos();
+    if (!name.trim()) {
+      setError("Falta nombre");
+      return;
+    }
 
-    await addDoc(collection(db, `brands/${brandId}/clients`), {
-      name,
-      email,
-      measurements,
-      photos: photoUrls,
-      createdAt: Timestamp.now(),
-      createdBy: userId,
-    });
+    try {
+      const photoUrls = await uploadPhotos();
 
-    setName("");
-    setEmail("");
-    setFiles(null);
-    setMeasurements({});
-    alert("Cliente creado correctamente");
+      await addDoc(collection(db, `brands/${brandId}/clients`), {
+        name,
+        email,
+        measurements,
+        photos: photoUrls,
+        createdAt: Timestamp.now(),
+        createdBy: userId,
+      });
+
+      setName("");
+      setEmail("");
+      setFiles(null);
+      setMeasurements({});
+      setSuccess("Cliente creado correctamente ✅");
+    } catch (err) {
+      setError("Hubo un error al guardar el cliente");
+      console.error(err);
+    }
   };
 
   return (
     <div className="p-4 border rounded-xl shadow-sm space-y-4">
       <h2 className="text-lg font-semibold">Registrar Cliente</h2>
+      {error && <p className="text-red-600 font-medium">{error}</p>}
+      {success && <p className="text-green-600 font-medium">{success}</p>}
       <input
         className="border p-2 w-full"
         placeholder="Nombre"
@@ -87,12 +102,16 @@ export const ClientForm = ({ brandId, userId }: Props) => {
         ))}
       </div>
 
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={(e) => setFiles(e.target.files)}
-      />
+      <label className="block">
+        <span className="text-sm text-gray-600">Cargar imagen</span>
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setFiles(e.target.files)}
+          className="mt-1"
+        />
+      </label>
 
       <button
         onClick={handleSubmit}
