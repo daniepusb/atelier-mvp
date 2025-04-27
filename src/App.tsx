@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AppUser } from "./types/UserRole";
 import { LoginForm } from "./components/auth/LoginForm";
-import { RegisterForm } from "./components/auth/RegisterForm";
 import { Dashboard } from "./pages/Dashboard";
 
 function App() {
@@ -9,9 +8,7 @@ function App() {
 
   if (!user) {
     return (
-      <div className="max-w-md mx-auto mt-10">
-        <RegisterForm />
-        <hr className="my-6" />
+      <div className="container bg-[#FDFAD3] h-screen w-screen flex items-center">
         <LoginForm onLogin={setUser} />
       </div>
     );
