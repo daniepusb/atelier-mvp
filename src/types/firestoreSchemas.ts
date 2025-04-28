@@ -1,6 +1,7 @@
 export type UserRole = 'admin' | 'trabajador';
 
 export interface UserDoc {
+  name: string;
   email: string;
   role: UserRole;
 }

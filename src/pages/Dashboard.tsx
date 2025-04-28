@@ -11,6 +11,8 @@ import { ClientList } from "../components/clients/ClientList";
 import { BudgetForm } from "../components/budget/BudgetForm";
 import { QuoteList } from "../components/quotes/QuoteList";
 
+import { RegisterForm } from "../components/auth/RegisterForm";
+
 import { db } from "../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { ItemDoc, TaskDoc } from "../types/firestoreSchemas";
@@ -46,13 +48,18 @@ export const Dashboard = ({ user }: { user: AppUser }) => {
     <div className="p-6 flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">Bienvenido {user.role}</h1>
       {user.role === "admin" && (
-        <div className="space-y-8">
-          <ItemList brandId={user.brandId} items={items} onDelete={fetchItems} />
-          <ItemForm brandId={user.brandId} userId={user.uid} onItemCreated={fetchItems} />
-          <hr />
-          <TaskList brandId={user.brandId} tasks={tasks} onDelete={fetchTasks} />
-          <TaskForm brandId={user.brandId} userId={user.uid} onTaskCreated={fetchTasks} />
-        </div>
+        <>
+          <div className="bg-[wheat] space-y-8">
+            <RegisterForm brandId={user.brandId}/>
+          </div>
+          <div className="bg-[aliceblue] space-y-8">
+            <ItemList brandId={user.brandId} items={items} onDelete={fetchItems} />
+            <ItemForm brandId={user.brandId} userId={user.uid} onItemCreated={fetchItems} />
+            <hr />
+            <TaskList brandId={user.brandId} tasks={tasks} onDelete={fetchTasks} />
+            <TaskForm brandId={user.brandId} userId={user.uid} onTaskCreated={fetchTasks} />
+          </div>
+        </>
       )}
 
       {user.role === "trabajador" && (
