@@ -1,37 +1,18 @@
-import { useEffect, useState } from "react";
-import { db } from "../../firebaseConfig";
-import {
-  collection,
-  getDocs,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { ItemDoc } from "../../types/firestoreSchemas";
+import { db } from "../../firebaseConfig";
 
 interface Props {
   brandId: string;
-  userId?: string;
+  items: { id: string; data: ItemDoc }[];
+  onDelete: () => void;
 }
 
-export const ItemList = ({ brandId }: Props) => {
-  const [items, setItems] = useState<{ id: string; data: ItemDoc }[]>([]);
-
-  const fetchItems = async () => {
-    const snapshot = await getDocs(collection(db, `brands/${brandId}/items`));
-    const itemsData = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      data: doc.data() as ItemDoc,
-    }));
-    setItems(itemsData);
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
+export const ItemList = ({ brandId, items, onDelete }: Props) => {
 
   const handleDelete = async (id: string) => {
     await deleteDoc(doc(db, `brands/${brandId}/items/${id}`));
-    fetchItems();
+    onDelete();
   };
 
   return (

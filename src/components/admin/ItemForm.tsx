@@ -1,14 +1,15 @@
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
 import { ItemDoc } from "../../types/firestoreSchemas";
+import { db } from "../../firebaseConfig";
 
 interface Props {
   brandId: string;
   userId?: string;
+  onItemCreated: () => void; // nueva prop
 }
 
-export const ItemForm = ({ brandId }: Props) => {
+export const ItemForm = ({ brandId, onItemCreated }: Props) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number>(0);
 
@@ -23,6 +24,7 @@ export const ItemForm = ({ brandId }: Props) => {
     await addDoc(collection(db, `brands/${brandId}/items`), newItem);
     setName("");
     setPrice(0);
+    onItemCreated(); // avisar que se creó un nuevo item
   };
 
   return (

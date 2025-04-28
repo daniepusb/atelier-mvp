@@ -6,9 +6,10 @@ import { TaskDoc } from "../../types/firestoreSchemas";
 interface Props {
   brandId: string;
   userId?: string;
+  onTaskCreated: () => void; // nuevo callback
 }
 
-export const TaskForm = ({ brandId }: Props) => {
+export const TaskForm = ({ brandId, onTaskCreated }: Props) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number>(0);
 
@@ -23,6 +24,7 @@ export const TaskForm = ({ brandId }: Props) => {
     await addDoc(collection(db, `brands/${brandId}/tasks`), newTask);
     setName("");
     setPrice(0);
+    onTaskCreated(); // avisar que se creó una nueva tarea
   };
 
   return (
