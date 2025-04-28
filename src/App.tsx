@@ -8,7 +8,7 @@ function App() {
 
   if (!user) {
     return (
-      <div className="container h-screen w-screen flex items-center">
+      <div >
         <LoginForm2 onLogin={setUser} />
       </div>
     );
