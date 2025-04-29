@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppUser } from "../types/UserRole";
+import { Header } from "../components/layout/Header";
 import { ItemForm } from "../components/admin/ItemForm";
 import { ItemList } from "../components/admin/ItemList";
 import { TaskForm } from "../components/admin/TaskForm";
@@ -45,8 +46,10 @@ export const Dashboard = ({ user }: { user: AppUser }) => {
   }, []);
 
   return (
+    <>
+    <Header user={user} onLogout={() => (console.log("User logged out"))} />
     <div className="p-6 flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">Bienvenido {user.role}</h1>
+      <h1 className="text-2xl font-bold mb-4">Bienvenido {user.name}</h1>
       {user.role === "admin" && (
         <>
           <div className="bg-[wheat] space-y-8">
@@ -71,5 +74,6 @@ export const Dashboard = ({ user }: { user: AppUser }) => {
         </>
       )}
     </div>
+    </>
   );
 };
