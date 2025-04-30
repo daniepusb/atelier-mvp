@@ -18,7 +18,7 @@ import { db } from "../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { ItemDoc, TaskDoc } from "../types/firestoreSchemas";
 
-export const Dashboard = ({ user }: { user: AppUser }) => {
+export const Dashboard = ({ user, onLogout }: { user: AppUser; onLogout: () => void; }) => {
   const [items, setItems] = useState<{ id: string; data: ItemDoc }[]>([]);
   const [tasks, setTasks] = useState<{ id: string; data: TaskDoc }[]>([]);
 
@@ -47,7 +47,7 @@ export const Dashboard = ({ user }: { user: AppUser }) => {
 
   return (
     <>
-    <Header user={user} onLogout={() => (console.log("User logged out"))} />
+    <Header user={user} onLogout={onLogout} />
     <div className="p-6 flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">Bienvenido {user.name}</h1>
       {user.role === "admin" && (

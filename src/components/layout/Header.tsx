@@ -1,23 +1,38 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { AppUser } from '../../types/UserRole'
+import { AppUser, UserRole } from '../../types/UserRole'
+import { useEffect, useState } from 'react';
 
-const navigation = [
-  { name: 'Inicio', href: '#home', current: true},
-  { name: 'Estadísticas', href: '#stats', current: false, role:'admin'},
-  { name: 'Prendas', href: '#dress', current: false, role:'admin' },
-  { name: 'Clientes', href: '#clients', current: false, role:'admin' },
-  { name: 'Staff', href: '#staff', current: false, role:'admin' },
-  { name: 'Locales', href: '#stores', current: false, role:'admin' },
-]
+const navigationAdmin = [
+  { name: 'Inicio', href: '#home', current: true },
+  { name: 'Estadísticas', href: '#stats', current: false },
+  { name: 'Prendas', href: '#dress', current: false },
+  { name: 'Clientes', href: '#clients', current: false },
+  { name: 'Staff', href: '#staff', current: false },
+  { name: 'Locales', href: '#stores', current: false },
+];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
+const navigationTrabajador = [
+  { name: 'Inicio', href: '#home', current: true },
+  { name: 'Clientes', href: '#clients', current: false },
+];
+
 
 export const Header = ({ user, onLogout }: { user: AppUser, onLogout: () => void }) => {
-//export const Header = ({ user }: { user: AppUser }) => {
- console.log(user);
+  const navigation = user.role === UserRole.admin ? navigationAdmin : navigationTrabajador;
+  const [activeHash, setActiveHash] = useState<string>(window.location.hash || '#home');
+  useEffect(() => {
+    const onHashChange = () => {
+      setActiveHash(window.location.hash || '#home');
+    };
+
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+  }
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -41,15 +56,13 @@ export const Header = ({ user, onLogout }: { user: AppUser, onLogout: () => void
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                
-                {navigation.filter((item) => item.role === user.role)
-                 .map((item) => (
+                {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={item.href === activeHash ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      item.href === activeHash ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
@@ -104,7 +117,7 @@ export const Header = ({ user, onLogout }: { user: AppUser, onLogout: () => void
                 </MenuItem>
                 <MenuItem>
                   <a
-                    onClick={() => { onLogout(); window.location.reload();}}
+                    onClick={() => onLogout() }
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
                   >
@@ -119,16 +132,15 @@ export const Header = ({ user, onLogout }: { user: AppUser, onLogout: () => void
 
       <DisclosurePanel className="sm:hidden">
         <div className="space-y-1 px-2 pt-2 pb-3">
-          {navigation.filter((item) => !item.role || item.role === user.role)
-          .map((item) => (
+          {navigation.map((item) => (
             <DisclosureButton
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.current ? 'page' : undefined}
+              aria-current={item.href === activeHash ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium',
+                item.href === activeHash ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                'rounded-md px-3 py-2 text-sm font-medium',
               )}
             >
               {item.name}
