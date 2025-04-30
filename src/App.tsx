@@ -4,9 +4,11 @@ import { LoginForm2 } from "./components/auth/LoginForm";
 import { Dashboard } from "./pages/Dashboard";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebaseConfig";
+import { Toast } from "./components/ui/Toast";
 
 function App() {
   const [user, setUser] = useState<AppUser | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -28,24 +30,34 @@ function App() {
     }
   }, [user]);
 
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
       setUser(null);
+      setToastMessage("Sesión cerrada exitosamente");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+      setToastMessage("Error al cerrar sesión");
     }
   };
-  if (!user) {
-    return (
-      <div >
-        <LoginForm2 onLogin={setUser} />
-      </div>
-    );
-  }
 
-  return <Dashboard user={user} onLogout={handleLogout}/>;
+  return (
+    <div>
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          type="success"
+          onClose={() => setToastMessage(null)}
+        />
+      )}
+
+      {!user ? (
+        <LoginForm2 onLogin={setUser} />
+      ) : (
+        <Dashboard user={user} onLogout={handleLogout} />
+      )}
+    </div>
+  );
 }
 
 export default App;
