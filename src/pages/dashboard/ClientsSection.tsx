@@ -1,21 +1,13 @@
-import { ClientForm } from "../../components/clients/ClientForm";
 import { ClientList } from "../../components/clients/ClientList";
-import { UserRole } from "../../types/UserRole";
+import { UserRole } from '../../types/UserRole'
 
-export const ClientsSection = ({
-  brandId,
-  userId,
-  role,
-}: {
+interface Props {
   brandId: string;
-  userId: string;
   role: UserRole;
-}) => (
-  <>
-    {role === UserRole.trabajador && (
-      <ClientForm brandId={brandId} userId={userId} />
-    )}
+}
 
-    <ClientList brandId={brandId} userId={userId}/>
+export const ClientsSection = ({brandId, role}: Props ) => (
+  <>
+    <ClientList brandId={brandId} role={role}/>
   </>
 );

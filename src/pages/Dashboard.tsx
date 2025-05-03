@@ -55,7 +55,7 @@ export const Dashboard = ({
           />
         );
       case "#clients":
-        return <ClientsSection brandId={user.brandId} userId={user.uid} role={user.role}/>;
+        return <ClientsSection brandId={user.brandId} role={user.role}/>;
       case "#staff":
         return <StaffSection brandId={user.brandId} />;
       case "#stores":
