@@ -1,20 +1,14 @@
-import { ItemForm } from "../../components/admin/ItemForm";
-import { ItemList } from "../../components/admin/ItemList";
-import { ItemDoc } from "../../types/firestoreSchemas";
+import { DressList } from "../../components/dresses/DressList";
+import { TaskList } from "../../components/tasks/TaskList";
+import { AppUser } from "../../types/UserRole";
 
-export const DressSection = ({
-  brandId,
-  userId,
-  items,
-  refreshItems,
-}: {
-  brandId: string;
-  userId: string;
-  items: { id: string; data: ItemDoc }[];
-  refreshItems: () => void;
-}) => (
+interface Props {
+  user: AppUser;
+}
+
+export const DressSection = ({user}: Props) => (
   <>
-    <ItemList brandId={brandId} items={items} onDelete={refreshItems} />
-    <ItemForm brandId={brandId} userId={userId} onItemCreated={refreshItems} />
+    <DressList user={user} />
+    <TaskList user={user} />
   </>
 );

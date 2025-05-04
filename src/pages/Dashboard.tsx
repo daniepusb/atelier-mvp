@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppUser } from "../types/UserRole";
 import { Header } from "../components/layout/Header";
-
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import { ItemDoc } from "../types/firestoreSchemas";
-
 import { HomeSection } from "./dashboard/HomeSection";
 import { StatsSection } from "./dashboard/StatsSection";
 import { DressSection } from "./dashboard/DressSection";
@@ -23,22 +18,11 @@ export const Dashboard = ({
 }) => {
   const [activeSection, setActiveSection] = useState<string>(window.location.hash || "#home");
 
-  const [items, setItems] = useState<{ id: string; data: ItemDoc }[]>([]);
-  const fetchItems = async () => {
-    const snapshot = await getDocs(collection(db, `brands/${user.brandId}/items`));
-    const itemsData = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      data: doc.data() as ItemDoc,
-    }));
-    setItems(itemsData);
-  };
-
   useEffect(() => {
     const handleHashChange = () => {
       setActiveSection(window.location.hash || "#home");
     };
     window.addEventListener("hashchange", handleHashChange);
-    fetchItems();
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
@@ -48,12 +32,7 @@ export const Dashboard = ({
         return <StatsSection />;
       case "#dress":
         return (
-          <DressSection
-            brandId={user.brandId}
-            userId={user.uid}
-            items={items}
-            refreshItems={fetchItems}
-          />
+          <DressSection user={user} />
         );
       case "#clients":
         return <ClientsSection brandId={user.brandId} role={user.role}/>;
