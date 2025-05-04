@@ -4,7 +4,7 @@ import { auth, db } from "../../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { AppUser } from "../../types/UserRole";
 
-export const LoginForm2 = ({ onLogin }: { onLogin: (user: AppUser) => void }) => {
+export const LoginForm = ({ onLogin }: { onLogin: (user: AppUser) => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,7 +18,14 @@ export const LoginForm2 = ({ onLogin }: { onLogin: (user: AppUser) => void }) =>
 
       if (userSnap.exists()) {
         const data = userSnap.data() as AppUser;
-        onLogin({ ...data, uid });
+
+        const docRef_AppUser    = doc(db, `brands/${data.brandId}/staff`, uid);
+        const userSnap_AppUser  = await getDoc(docRef_AppUser);
+        if (userSnap_AppUser.exists()) {
+          const data_AppUser = userSnap_AppUser.data() as AppUser;
+          onLogin({ ...data_AppUser, uid });
+        }
+       
       } else {
         alert("No se encontró el rol del usuario.");
       }

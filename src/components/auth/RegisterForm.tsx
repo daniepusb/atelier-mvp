@@ -2,16 +2,25 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig";
+import { AppUser } from "../../types/UserRole";
 
 interface Props {
-  brandId: string;
+  user: AppUser;
 }
 
-export const RegisterForm  = ({brandId}: Props) => {
+export const RegisterForm  = ({user}: Props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const role = "trabajador";
+  const _brandId = user.brandId;
+  const _email = email;
+  const _isAdmin = false;
+  const _lastName = "";
+  const _name = name;
+  const _role = "trabajador";
+  const _storeId = user.storeId;
+  const _createdBy = user.uid;
+  const _createdByName = user.name;
 
   const handleRegister = async () => {
     try {
@@ -19,11 +28,22 @@ export const RegisterForm  = ({brandId}: Props) => {
       const uid = userCredential.user.uid;
 
       await setDoc(doc(db, "users", uid), {
-        brandId,
-        email,
-        role,
-        name
+        brandId:  _brandId,
+        email:    _email,
       });
+      await setDoc(doc(db, `brands/${_brandId}/staff`, uid), {
+        brandId:  _brandId,
+        email:    _email,
+        isAdmin:  _isAdmin,
+        lastName: _lastName,
+        name:     _name,
+        role:     _role,
+        storeId:  _storeId,
+        createdAt: new Date(),
+        createdBy:      _createdBy,
+        createdByName:  _createdByName, 
+      });
+
       setName("");
       setEmail("");
       setPassword("");
