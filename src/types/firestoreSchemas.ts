@@ -9,16 +9,19 @@ export interface BrandDoc {
 }
 
 export interface ItemDoc {
+  id: string;
   name: string;
   price: number;
 }
 
 export interface TaskDoc {
+  id: string;
   name: string;
   price: number;
 }
 
 export interface ClientDoc {
+  id: string;
   name: string;
   email?: string;
   measurements: {
