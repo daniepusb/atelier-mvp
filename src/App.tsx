@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppUser } from "./types/UserRole";
-import { LoginForm2 } from "./components/auth/LoginForm";
+import { LoginForm } from "./components/auth/LoginForm";
 import { Dashboard } from "./pages/Dashboard";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebaseConfig";
@@ -52,7 +52,7 @@ function App() {
       )}
 
       {!user ? (
-        <LoginForm2 onLogin={setUser} />
+        <LoginForm onLogin={setUser} />
       ) : (
         <Dashboard user={user} onLogout={handleLogout} />
       )}

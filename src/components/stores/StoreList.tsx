@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, Timestamp } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import Table from "../lists/Table";
 import { UserRole } from '../../types/UserRole'
