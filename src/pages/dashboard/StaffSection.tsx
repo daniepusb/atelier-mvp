@@ -1,8 +1,14 @@
 import { RegisterForm } from "../../components/auth/RegisterForm";
+import { StaffList } from "../../components/staffs/StaffList";
+import { UserRole } from "../../types/UserRole";
 
-export const StaffSection = ({ brandId }: { brandId: string }) => (
+interface Props {
+  brandId: string;
+}
+
+export const StaffSection = ({ brandId }: Props) => (
   <div className="space-y-4">
+    <StaffList brandId={brandId} />
     <RegisterForm brandId={brandId} />
-    {/* Aquí podrías agregar una lista de usuarios registrados si la tienes */}
   </div>
 );

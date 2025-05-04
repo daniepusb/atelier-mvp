@@ -60,7 +60,7 @@ export const Dashboard = ({
       case "#staff":
         return <StaffSection brandId={user.brandId} />;
       case "#stores":
-        return <StoresSection />;
+        return <StoresSection brandId={user.brandId} role={user.role} />;
       case "#profile":
         return <Profile user={user} />;
       case "#home":
