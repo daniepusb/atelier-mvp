@@ -12,6 +12,7 @@ import { DressSection } from "./dashboard/DressSection";
 import { ClientsSection } from "./dashboard/ClientsSection";
 import { StaffSection } from "./dashboard/StaffSection";
 import { StoresSection } from "./dashboard/StoresSection";
+import { Profile } from "./Profile";
 
 export const Dashboard = ({
   user,
@@ -60,6 +61,8 @@ export const Dashboard = ({
         return <StaffSection brandId={user.brandId} />;
       case "#stores":
         return <StoresSection />;
+      case "#profile":
+        return <Profile user={user} />;
       case "#home":
       default:
         return <HomeSection name={user.name} />;

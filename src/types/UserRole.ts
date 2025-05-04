@@ -1,13 +1,19 @@
+import { Timestamp } from 'firebase/firestore';
+
 export enum UserRole {
   admin = 'admin',
   trabajador = 'trabajador',
 }
 export interface AppUser {
   uid: string;
-  name: string;
-  lastName: string;
-  storeId: string;
-  email: string;
-  role: UserRole;
   brandId: string;
+  email: string;
+  isAdmin: boolean;
+  lastName: string;
+  name: string;
+  role: UserRole;
+  storeId: string;
+  createdAt: Timestamp;
+  createdBy: string;
+  createdByName: string;
 }
