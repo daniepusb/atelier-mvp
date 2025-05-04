@@ -1,10 +1,6 @@
 export type UserRole = 'admin' | 'trabajador';
 
-export interface UserDoc {
-  name: string;
-  email: string;
-  role: UserRole;
-}
+
 
 export interface BrandDoc {
   name: string;
@@ -56,4 +52,12 @@ export interface QuoteDoc {
   total: number;
   createdBy: string;
   createdAt: Date;
+}
+
+export interface StoreDoc {
+  address: string;
+  city: string;
+  phone: number;
+  region: string;
+  zipcode: number
 }

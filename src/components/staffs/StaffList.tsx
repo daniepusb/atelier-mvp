@@ -76,7 +76,7 @@ export const StaffList = ({brandId}: Props) => {
       </td>
       <td className="hidden md:table-cell">
         <div className="flex flex-col">
-          <h3 className="font-semibold">{item.storeId}</h3>
+          <h3 className="font-semibold">{stores.find((store) => store.id === item.storeId)?.data.city}</h3>
           <p className="text-xs text-gray-500">{stores.find((store) => store.id === item.storeId)?.data.address}</p>
         </div>
       </td>

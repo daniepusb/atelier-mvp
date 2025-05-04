@@ -1,14 +1,14 @@
 import { RegisterForm } from "../../components/auth/RegisterForm";
 import { StaffList } from "../../components/staffs/StaffList";
-import { UserRole } from "../../types/UserRole";
+import { AppUser } from "../../types/UserRole";
 
 interface Props {
-  brandId: string;
+  user: AppUser;
 }
 
-export const StaffSection = ({ brandId }: Props) => (
+export const StaffSection = ({ user }: Props) => (
   <div className="space-y-4">
-    <StaffList brandId={brandId} />
-    <RegisterForm brandId={brandId} />
+    <StaffList brandId={user.brandId} />
+    <RegisterForm user={user} />
   </div>
 );
