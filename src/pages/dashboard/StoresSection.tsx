@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const StoresSection = ({ brandId, role }: Props) => (
-  <div className="space-y-4">
+  <>
     <StoreList brandId={brandId} role={role} />
-  </div>
+  </>
 );

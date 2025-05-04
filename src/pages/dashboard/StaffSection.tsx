@@ -7,8 +7,8 @@ interface Props {
 }
 
 export const StaffSection = ({ user }: Props) => (
-  <div className="space-y-4">
+  <>
     <StaffList brandId={user.brandId} />
     <RegisterForm user={user} />
-  </div>
+  </>
 );
