@@ -48,6 +48,7 @@ export const StaffList = ({brandId}: Props) => {
     {
       header: "Acciones",
       accessor: "action",
+      className: "text-right",
     }
   ];
   const [stores, setStores] = useState<{ id: string; data: StoreDoc }[]>([]);
@@ -80,7 +81,7 @@ export const StaffList = ({brandId}: Props) => {
         </div>
       </td>
       <td>
-        <div className="flex items-center gap-2">
+        <div className="flex justify-end flex-row gap-2">
           <a href="">
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
             <PencilSquareIcon className="w-5 h-5" />
@@ -94,7 +95,7 @@ export const StaffList = ({brandId}: Props) => {
     </tr>
   );
   return (
-    <div className="w-full bg-white p-4 rounded-lg flex-1 m-4 mt-0">
+    <div className="w-full bg-white p-4 rounded-lg flex-1">
       <div className="flex justify-between items-center">
         <h1 className="hidden md:block text-lg font-semibold">Staff</h1>
       </div>
