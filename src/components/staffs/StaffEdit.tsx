@@ -21,7 +21,6 @@ export const StaffEdit = ({user}:Props) => {
   };
   
   useEffect(() => {
-    console.log("Fetching stores...");
     fetchStores();
   }, []);
 

@@ -61,7 +61,6 @@ export const StaffList = ({brandId}: Props) => {
   };
 
   useEffect(() => {
-    console.log("Fetching stores...");
     fetchStores();
     fetchStaffs();
   }, []);
