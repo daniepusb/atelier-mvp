@@ -31,9 +31,7 @@ export const Dashboard = ({
       case "#stats":
         return <StatsSection />;
       case "#dress":
-        return (
-          <DressSection user={user} />
-        );
+        return <DressSection user={user} />
       case "#clients":
         return <ClientsSection brandId={user.brandId} role={user.role}/>;
       case "#staff":
@@ -44,7 +42,7 @@ export const Dashboard = ({
         return <Profile user={user} />;
       case "#home":
       default:
-        return <HomeSection name={user.name} />;
+        return <HomeSection user={user} />;
     }
   };
 

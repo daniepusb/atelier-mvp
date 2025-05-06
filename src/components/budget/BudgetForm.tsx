@@ -1,20 +1,36 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { BudgetSummary } from "./BudgetSummary";
+import { BudgetStep1 } from "./steps/Step1_SelectClient";
+import { BudgetStep2 } from "./steps/Step2_ConfirmClient";
+import { BudgetStep3 } from "./steps/Step3_SelectItem";
+import { BudgetStep4 } from "./steps/Step4_SelectTasks";
+import { ClientDoc } from "../../types/firestoreSchemas";
 
 interface Props {
   brandId: string;
   userId: string;
+  step: number;
+  setStep: (step: number) => void;
+  selectedClient: ClientDoc;
+  setSelectedClient: (client: ClientDoc) => void;
+  selectedItem: string;
+  setSelectedItem: (item: string) => void;
 }
 
-export const BudgetForm = ({ brandId, userId }: Props) => {
+export const BudgetForm = ({
+  brandId,
+  userId,
+  step,
+  setStep,
+  selectedClient,
+  setSelectedClient,
+  selectedItem,
+  setSelectedItem,
+}: Props) => {
   const [clients, setClients] = useState<any[]>([]);
   const [items, setItems] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
-
-  const [selectedClient, setSelectedClient] = useState<string>("");
-  const [selectedItem, setSelectedItem] = useState<string>("");
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
 
   useEffect(() => {
@@ -24,7 +40,6 @@ export const BudgetForm = ({ brandId, userId }: Props) => {
         getDocs(collection(db, `brands/${brandId}/items`)),
         getDocs(collection(db, `brands/${brandId}/tasks`)),
       ]);
-
       setClients(clientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setItems(itemsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setTasks(tasksSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -34,64 +49,40 @@ export const BudgetForm = ({ brandId, userId }: Props) => {
   }, [brandId]);
 
   return (
-    <div className="p-4 space-y-4">
-      <h2 className="text-xl font-bold">Nuevo Presupuesto</h2>
-
-      {/* Cliente */}
-      <select
-        value={selectedClient}
-        onChange={(e) => setSelectedClient(e.target.value)}
-        className="w-full border p-2"
-      >
-        <option value="">Seleccionar Cliente</option>
-        {clients.map((client) => (
-          <option key={client.id} value={client.id}>
-            {client.name}
-          </option>
-        ))}
-      </select>
-
-      {/* Vestido */}
-      <select
-        value={selectedItem}
-        onChange={(e) => setSelectedItem(e.target.value)}
-        className="w-full border p-2"
-      >
-        <option value="">Seleccionar Vestido</option>
-        {items.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name} - €{item.price}
-          </option>
-        ))}
-      </select>
-
-      {/* Tareas manuales */}
-      <div className="space-y-2">
-        <p className="font-medium">Tareas Manuales:</p>
-        {tasks.map((task) => (
-          <label key={task.id} className="flex gap-2 items-center">
-            <input
-              type="checkbox"
-              checked={selectedTasks.includes(task.id)}
-              onChange={() =>
-                setSelectedTasks((prev) =>
-                  prev.includes(task.id)
-                    ? prev.filter((id) => id !== task.id)
-                    : [...prev, task.id]
-                )
-              }
-            />
-            {task.name} - €{task.price}
-          </label>
-        ))}
-      </div>
-
-      {/* Presupuesto */}
-      {selectedClient && selectedItem && (
-        <BudgetSummary
-          client={clients.find((c) => c.id === selectedClient)}
-          item={items.find((i) => i.id === selectedItem)}
-          tasks={tasks.filter((t) => selectedTasks.includes(t.id))}
+    <div className="p-4 mt-10 space-y-6">
+      {step === 1 && (
+        <BudgetStep1
+          clients={clients}
+          selectedClient={selectedClient}
+          setSelectedClient={(client) => {
+            setSelectedClient(client);
+            setStep(2);
+          }}
+        />
+      )}
+      {step === 2 && (
+        <BudgetStep2
+          selectedClient={selectedClient}
+          onConfirm={() => setStep(3)}
+        />
+      )}
+      {step === 3 && (
+        <BudgetStep3
+          items={items}
+          selectedItem={selectedItem}
+          setSelectedItem={(itemId) => {
+            setSelectedItem(itemId);
+            setStep(4);
+          }}
+        />
+      )}
+      {step === 4 && (
+        <BudgetStep4
+          tasks={tasks}
+          selectedTasks={selectedTasks}
+          setSelectedTasks={setSelectedTasks}
+          selectedItem={items.find(i => i.id === selectedItem)}
+          selectedClient={selectedClient}
           brandId={brandId}
           userId={userId}
         />

@@ -9,8 +9,11 @@ interface Props {
   brandId: string;
   userId: string;
 }
-
 export const BudgetSummary = ({ client, item, tasks, brandId, userId }: Props) => {
+  if (!client || !item ) {
+    return <div className="p-4 border mt-4 rounded-lg bg-gray-50 text-gray-500">Faltan datos para mostrar el resumen.</div>;
+  }
+
   const total =
     Number(item.price) + tasks.reduce((sum, t) => sum + Number(t.price), 0);
 
@@ -38,6 +41,7 @@ export const BudgetSummary = ({ client, item, tasks, brandId, userId }: Props) =
   };
 
   const downloadPDF = () => {
+    saveQuote();
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text("Presupuesto", 20, 20);
@@ -55,10 +59,10 @@ export const BudgetSummary = ({ client, item, tasks, brandId, userId }: Props) =
 
   return (
     <div className="p-4 border mt-4 rounded-lg space-y-2 bg-gray-50">
-      <h3 className="font-semibold text-lg">Resumen</h3>
-      <span role="contentClientNameInfo"><strong>Cliente:</strong> {client.name}</span>
-      <span role="contentDressNameInfo"><strong>Vestido:</strong> {item.name} (€{item.price})</span>
-      <span role="contentTasksInfo"><strong>Tareas:</strong></span>
+      <h1 className="font-semibold text-lg">Resumen</h1>
+      <p role="contentClientNameInfo"><strong>Cliente:</strong> {client.name}</p>
+      <p role="contentDressNameInfo"><strong>Prenda:</strong> {item.name} (€{item.price})</p>
+      <p role="contentTasksInfo"><strong>Modificaciones:</strong></p>
       <ul className="list-disc list-inside">
         {tasks.map((task) => (
           <li key={task.id}>
