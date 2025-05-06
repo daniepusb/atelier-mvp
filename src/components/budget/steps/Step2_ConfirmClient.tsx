@@ -1,4 +1,3 @@
-// components/budget/steps/Step2_ConfirmClient.tsx
 import { ClientDoc } from "../../../types/firestoreSchemas";
 
 interface Props {

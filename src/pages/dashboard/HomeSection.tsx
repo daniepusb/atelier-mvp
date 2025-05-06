@@ -19,8 +19,7 @@ export const HomeSection = ({ user }: Props) => {
       <BudgetForm
         step={step}
         setStep={setStep}
-        brandId={user.brandId}
-        userId={user.uid}
+        user={user}
         selectedClient={selectedClient}
         setSelectedClient={setSelectedClient}
         selectedItem={selectedItem}

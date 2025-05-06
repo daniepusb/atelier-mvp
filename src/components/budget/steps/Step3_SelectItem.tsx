@@ -1,4 +1,3 @@
-// components/budget/steps/Step3_SelectItem.tsx
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 

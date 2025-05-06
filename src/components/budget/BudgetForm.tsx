@@ -6,10 +6,10 @@ import { BudgetStep2 } from "./steps/Step2_ConfirmClient";
 import { BudgetStep3 } from "./steps/Step3_SelectItem";
 import { BudgetStep4 } from "./steps/Step4_SelectTasks";
 import { ClientDoc } from "../../types/firestoreSchemas";
+import { AppUser } from "../../types/UserRole";
 
 interface Props {
-  brandId: string;
-  userId: string;
+  user: AppUser
   step: number;
   setStep: (step: number) => void;
   selectedClient: ClientDoc;
@@ -19,8 +19,7 @@ interface Props {
 }
 
 export const BudgetForm = ({
-  brandId,
-  userId,
+  user,
   step,
   setStep,
   selectedClient,
@@ -36,9 +35,9 @@ export const BudgetForm = ({
   useEffect(() => {
     const fetchData = async () => {
       const [clientsSnap, itemsSnap, tasksSnap] = await Promise.all([
-        getDocs(collection(db, `brands/${brandId}/clients`)),
-        getDocs(collection(db, `brands/${brandId}/items`)),
-        getDocs(collection(db, `brands/${brandId}/tasks`)),
+        getDocs(collection(db, `brands/${user.brandId}/clients`)),
+        getDocs(collection(db, `brands/${user.brandId}/items`)),
+        getDocs(collection(db, `brands/${user.brandId}/tasks`)),
       ]);
       setClients(clientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setItems(itemsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -46,7 +45,7 @@ export const BudgetForm = ({
     };
 
     fetchData();
-  }, [brandId]);
+  }, [user.brandId]);
 
   return (
     <div className="p-4 mt-10 space-y-6">
@@ -83,8 +82,7 @@ export const BudgetForm = ({
           setSelectedTasks={setSelectedTasks}
           selectedItem={items.find(i => i.id === selectedItem)}
           selectedClient={selectedClient}
-          brandId={brandId}
-          userId={userId}
+          user={user}
         />
       )}
     </div>

@@ -1,6 +1,6 @@
-// components/budget/steps/Step4_SelectTasks.tsx
 import { BudgetSummary } from "../BudgetSummary";
 import { ClientDoc } from "../../../types/firestoreSchemas";
+import { AppUser } from "../../../types/UserRole";
 
 interface Props {
   tasks: { id: string; name: string; price: number }[];
@@ -8,8 +8,7 @@ interface Props {
   setSelectedTasks: React.Dispatch<React.SetStateAction<string[]>>;
   selectedItem: { id: string; name: string; price: number } | undefined;
   selectedClient: ClientDoc;
-  brandId: string;
-  userId: string;
+  user: AppUser;
 }
 
 export const BudgetStep4 = ({
@@ -18,8 +17,7 @@ export const BudgetStep4 = ({
   setSelectedTasks,
   selectedItem,
   selectedClient,
-  brandId,
-  userId,
+  user
 }: Props) => {
     const toggleTask = (taskId: string) => {
         setSelectedTasks((prev: string[]) =>
@@ -51,8 +49,7 @@ export const BudgetStep4 = ({
           client={selectedClient}
           item={selectedItem}
           tasks={tasks.filter((t) => selectedTasks.includes(t.id))}
-          brandId={brandId}
-          userId={userId}
+          user={user}
         />
       </div>
     </fieldset>

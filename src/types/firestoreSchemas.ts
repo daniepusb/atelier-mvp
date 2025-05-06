@@ -21,6 +21,7 @@ export interface TaskDoc {
 export interface ClientDoc {
   id: string;
   name: string;
+  phone: number;
   email?: string;
   measurements: {
     busto?: number;

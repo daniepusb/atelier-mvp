@@ -1,4 +1,3 @@
-// components/budget/steps/Step1_SelectClient.tsx
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { ClientDoc } from "../../../types/firestoreSchemas";
