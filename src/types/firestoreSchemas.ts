@@ -24,13 +24,16 @@ export interface ClientDoc {
   phone: number;
   email?: string;
   measurements: {
-    busto?: number;
-    cintura?: number;
-    pecho?: number;
-    cuello?: number;
-    brazos?: number;
-    piernas?: number;
-    [key: string]: number | undefined;
+    ancho_de_espalda                    : number;
+    alto_de_busto                       : number;
+    contorno_de_brazo                   : number;
+    contorno_de_busto                   : number;
+    contorno_de_cintura                 : number;
+    contorno_de_cadera                  : number;
+    largo_del_brazo                     : number;
+    largo_del_vestido_por_detras__cola__: number;
+    largo_desde_hombro_al_suelo			: number;
+    [key: string]: number;
   };
   photos: string[];
   createdAt: Date;

@@ -52,7 +52,7 @@ export const BudgetSummary = ({ client, item, tasks, user }: Props) => {
     }
     const store = storeSnap.data() as StoreDoc;
   
-    await generateBudgetPDF(client, item, tasks, store, user);
+    await generateBudgetPDF(client, item, tasks, store);
   };
   
   

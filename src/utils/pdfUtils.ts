@@ -1,7 +1,6 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { ClientDoc, StoreDoc } from "../types/firestoreSchemas";
-import { AppUser } from "../types/UserRole";
 
 import LOGO from "../assets/logo.png";
 
@@ -22,7 +21,7 @@ export const generateBudgetPDF = async (
   item: Item,
   tasks: Task[],
   store: StoreDoc,
-  user: AppUser
+  //user: AppUser
 ) => {
   const doc = new jsPDF();
   const logoImg = new Image();
@@ -63,7 +62,7 @@ export const generateBudgetPDF = async (
 
   const total = Number(item.price) + tasks.reduce((sum, t) => sum + Number(t.price), 0);
   const totalY = lineHeight*8 + tasks.length * 10;
-  const finalY = doc.table.length || 80;
+  //const finalY = doc.table.length || 80;
 
   doc.setFontSize(14);
   doc.setTextColor(20, 20, 20);
