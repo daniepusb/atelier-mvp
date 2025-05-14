@@ -6,22 +6,19 @@ import { db, PROJECT_PREFIX } from '../../firebaseConfig';
 import { StoreDoc } from '../../types/firestoreSchemas';
 
 interface Props {
-  user: AppUser,
-  selectedStaff: AppUser,
-  onBack: () => void;
+  user: AppUser
 }
 
-export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
-  
+export const ProfileEdit = ({ user }: Props) => {
   const [stores, setStores] = useState<{ id: string; data: StoreDoc }[]>([]);
-  const [name, setName] = useState(selectedStaff.name);
-  const [lastName, setLastName] = useState(selectedStaff.lastName);
-  const [storeId, setStoreId] = useState(selectedStaff.storeId);
-  const [email, setEmail] = useState(selectedStaff.email);
+  const [name, setName] = useState(user.name);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [storeId, setStoreId] = useState(user.storeId);
+  const [email, setEmail] = useState(user.email);
   const [isLoading, setIsLoading] = useState(false);
-
+  
   const fetchStores = async () => {
-    const snapshot = await getDocs(collection(db, PROJECT_PREFIX + `brands/${selectedStaff.brandId}/stores`));
+    const snapshot = await getDocs(collection(db, PROJECT_PREFIX + `brands/${user.brandId}/stores`));
     const storesData = snapshot.docs.map((doc) => ({
       id: doc.id,
       data: doc.data() as StoreDoc,
@@ -30,7 +27,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
   };
 
   const fetchUserData = async () => {
-    const userRef = doc(db, PROJECT_PREFIX + `brands/${selectedStaff.brandId}/staff/${selectedStaff.uid}`);
+    const userRef = doc(db, PROJECT_PREFIX + `brands/${user.brandId}/staff/${user.uid}`);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       const data = userSnap.data() as AppUser;
@@ -44,16 +41,14 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
   const updateUserProfile = async () => {
     setIsLoading(true);
     try {
-      const userRef = doc(db, PROJECT_PREFIX + `brands/${selectedStaff.brandId}/staff/${selectedStaff.uid}`);
+      const userRef = doc(db, PROJECT_PREFIX + `brands/${user.brandId}/staff/${user.uid}`);
       await updateDoc(userRef, { name, lastName, storeId });
       console.log("✅ Perfil actualizado correctamente.");
-      onBack();
     } catch (error) {
       console.error("❌ Error al actualizar el perfil:", error);
     } finally {
       setIsLoading(false);
     }
-    
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -66,7 +61,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
   useEffect(() => {
     fetchStores();
     fetchUserData();
-  }, []);
+  }, [user.brandId, user.uid]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -82,6 +77,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                disabled={!user.isAdmin}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -94,6 +90,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                disabled={!user.isAdmin}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -116,7 +113,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
                 id="brand"
                 name="brand"
                 type="brand"
-                value={selectedStaff.brandId}
+                value={user.brandId}
                 disabled
                 className="bg-white text-gray-500 cursor-not-allowed block w-full  rounded-md bg-white px-3 py-1.5 sm:text-sm/6"
               />
@@ -197,7 +194,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
 
       {user.isAdmin && (
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900" onClick={onBack}>
+          <button type="button" className="text-sm font-semibold text-gray-900">
             Cancelar
           </button>
           <button

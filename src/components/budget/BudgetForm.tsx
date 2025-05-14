@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX } from "../../firebaseConfig";
 import { BudgetStep1 } from "./steps/Step1_SelectClient";
 import { BudgetStep2 } from "./steps/Step2_ConfirmClient";
 import { BudgetStep3 } from "./steps/Step3_SelectItem";
@@ -35,9 +35,9 @@ export const BudgetForm = ({
   useEffect(() => {
     const fetchData = async () => {
       const [clientsSnap, itemsSnap, tasksSnap] = await Promise.all([
-        getDocs(collection(db, `brands/${user.brandId}/clients`)),
-        getDocs(collection(db, `brands/${user.brandId}/items`)),
-        getDocs(collection(db, `brands/${user.brandId}/tasks`)),
+        getDocs(collection(db, PROJECT_PREFIX+`brands/${user.brandId}/clients`)),
+        getDocs(collection(db, PROJECT_PREFIX+`brands/${user.brandId}/items`)),
+        getDocs(collection(db, PROJECT_PREFIX+`brands/${user.brandId}/tasks`)),
       ]);
       setClients(clientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setItems(itemsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));

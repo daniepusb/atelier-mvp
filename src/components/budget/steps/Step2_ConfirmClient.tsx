@@ -11,7 +11,7 @@ export const BudgetStep2 = ({ selectedClient, onConfirm }: Props) => {
   return (
     <fieldset>
       <legend className="text-lg font-semibold">Confirmar información</legend>
-      <div className="space-y-2 border p-3 rounded-md bg-gray-50">
+      <div className="space-y-2 border p-3 rounded-sm bg-gray-50">
         <p className="font-semibold">Datos del cliente:</p>
         <p><strong>Nombre:</strong> {selectedClient.name}</p>
         <p><strong>Email:</strong> {selectedClient.email}</p>

@@ -1,12 +1,13 @@
-import { StaffEdit } from "../components/staffs/StaffEdit";
+import { ProfileEdit } from "../components/staffs/ProfileEdit";
 import { AppUser } from "../types/UserRole";
 
 interface Props {
-  user: AppUser;
+  user: AppUser
 }
 
 export const Profile = ({user}:Props) => {
+  
   return (
-    <StaffEdit user={user}/>
+    <ProfileEdit user={user} />
   );
 };

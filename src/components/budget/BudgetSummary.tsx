@@ -1,4 +1,4 @@
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX} from "../../firebaseConfig";
 import { doc as docFIrebase, getDoc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ClientDoc, StoreDoc } from "../../types/firestoreSchemas";
 import { AppUser } from "../../types/UserRole";
@@ -37,14 +37,14 @@ export const BudgetSummary = ({ client, item, tasks, user }: Props) => {
       createdAt: serverTimestamp(),
     };
 
-    await addDoc(collection(db, `brands/${user.brandId}/quotes`), quote);
+    await addDoc(collection(db, PROJECT_PREFIX+`brands/${user.brandId}/quotes`), quote);
     console.log("Presupuesto guardado ✅");
   };
 
   const downloadPDF = async () => {
     await saveQuote();
   
-    const storeRef = docFIrebase(db, `brands/${user.brandId}/stores/${user.storeId}`);
+    const storeRef = docFIrebase(db, PROJECT_PREFIX+`brands/${user.brandId}/stores/${user.storeId}`);
     const storeSnap = await getDoc(storeRef);
     if (!storeSnap.exists()) {
       alert("No se encontró la tienda.");

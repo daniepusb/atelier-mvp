@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX} from "../../firebaseConfig";
 import Table from "../lists/Table";
 import { AppUser, UserRole} from '../../types/UserRole'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
@@ -35,7 +35,7 @@ export const DressList = ({user}: Props) => {
   ];
   useEffect(() => {
     const fetchDresses = async () => {
-      const snapshot = await getDocs(collection(db, `brands/${user.brandId}/items`));
+      const snapshot = await getDocs(collection(db, PROJECT_PREFIX+`brands/${user.brandId}/items`));
       const docs = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),

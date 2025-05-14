@@ -1,6 +1,6 @@
 # Database Schema (Firestore)
 
-## Collection: brands/{brandId}
+## Collection: /atelier/pdf/brands/{brandId}
 - name: string
 - admins: string[] (UIDs)
 
@@ -9,8 +9,10 @@
 - `tasks/{taskId}`
 - `clients/{clientId}`
 - `quotes/{quoteId}`
+- `staff/{staffId}`
+- `stores/{storeId}`
 
-## Collection: users/{userId}
+## Collection: /atelier/pdf/users/{userId}
 - uid: string
 - email: string
 - role: "admin" | "worker"

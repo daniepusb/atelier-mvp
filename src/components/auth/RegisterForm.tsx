@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../firebaseConfig";
+import { auth, db, PROJECT_PREFIX } from "../../firebaseConfig";
 import { AppUser } from "../../types/UserRole";
 
 interface Props {
@@ -27,11 +27,11 @@ export const RegisterForm  = ({user}: Props) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
 
-      await setDoc(doc(db, "users", uid), {
+      await setDoc(doc(db, PROJECT_PREFIX+"users", uid), {
         brandId:  _brandId,
         email:    _email,
       });
-      await setDoc(doc(db, `brands/${_brandId}/staff`, uid), {
+      await setDoc(doc(db, PROJECT_PREFIX+`brands/${_brandId}/staff`, uid), {
         brandId:  _brandId,
         email:    _email,
         isAdmin:  _isAdmin,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db,PROJECT_PREFIX } from "../../firebaseConfig";
 import { TaskDoc } from "../../types/firestoreSchemas";
 
 interface Props {
@@ -21,7 +21,7 @@ export const TaskForm = ({ brandId, onTaskCreated }: Props) => {
       price,
     };
 
-    await addDoc(collection(db, `brands/${brandId}/tasks`), newTask);
+    await addDoc(collection(db, PROJECT_PREFIX+`brands/${brandId}/tasks`), newTask);
     setName("");
     setPrice(0);
     onTaskCreated(); // avisar que se creó una nueva tarea

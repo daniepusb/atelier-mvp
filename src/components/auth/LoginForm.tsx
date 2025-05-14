@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebaseConfig";
+import { auth, db, PROJECT_PREFIX } from "../../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { AppUser } from "../../types/UserRole";
 
@@ -13,13 +13,13 @@ export const LoginForm = ({ onLogin }: { onLogin: (user: AppUser) => void }) => 
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
 
-      const docRef = doc(db, "users", uid);
+      const docRef = doc(db, PROJECT_PREFIX+"users", uid);
       const userSnap = await getDoc(docRef);
 
       if (userSnap.exists()) {
         const data = userSnap.data() as AppUser;
 
-        const docRef_AppUser    = doc(db, `brands/${data.brandId}/staff`, uid);
+        const docRef_AppUser    = doc(db, PROJECT_PREFIX+`brands/${data.brandId}/staff`, uid);
         const userSnap_AppUser  = await getDoc(docRef_AppUser);
         if (userSnap_AppUser.exists()) {
           const data_AppUser = userSnap_AppUser.data() as AppUser;

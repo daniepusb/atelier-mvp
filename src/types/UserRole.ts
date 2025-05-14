@@ -9,6 +9,7 @@ export interface AppUser {
   brandId: string;
   email: string;
   isAdmin: boolean;
+  isBlocked: boolean;
   lastName: string;
   name: string;
   role: UserRole;

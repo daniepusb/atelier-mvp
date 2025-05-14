@@ -1,14 +1,22 @@
+import { useState } from "react";
 import { RegisterForm } from "../../components/auth/RegisterForm";
 import { StaffList } from "../../components/staffs/StaffList";
+import { StaffEdit } from "../../components/staffs/StaffEdit";
 import { AppUser } from "../../types/UserRole";
 
-interface Props {
-  user: AppUser;
-}
+export const StaffSection = ({ user }: { user: AppUser }) => {
+  const [selectedStaff, setSelectedStaff] = useState<AppUser | null>(null);
 
-export const StaffSection = ({ user }: Props) => (
-  <>
-    <StaffList brandId={user.brandId} />
-    <RegisterForm user={user} />
-  </>
-);
+  return (
+    <>
+      {selectedStaff ? (
+        <StaffEdit user={user} selectedStaff={selectedStaff} onBack={() => setSelectedStaff(null)} />
+      ) : (
+        <>
+          <StaffList user={user} onEdit={(staff) => setSelectedStaff(staff)} />
+          <RegisterForm user={user} />
+        </>
+      )}
+    </>
+  );
+};

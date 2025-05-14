@@ -1,13 +1,22 @@
+import { useState } from "react";
 import { ClientList } from "../../components/clients/ClientList";
-import { UserRole } from '../../types/UserRole'
+import { ClientEdit } from "../../components/clients/ClientEdit";
+import { AppUser } from '../../types/UserRole'
+import { ClientDoc } from "../../types/firestoreSchemas";
 
-interface Props {
-  brandId: string;
-  role: UserRole;
-}
 
-export const ClientsSection = ({brandId, role}: Props ) => (
-  <>
-    <ClientList brandId={brandId} role={role}/>
-  </>
-);
+export const ClientsSection = ({user}: { user: AppUser } ) => {
+  const [selectedClient, setSelectedClient] = useState<{id:string, client:ClientDoc} | null>(null);
+ 
+  return (
+    <>
+      {selectedClient ? (
+        <ClientEdit user={user} selectedClient={selectedClient} onBack={() => setSelectedClient(null)} />
+      ) : (
+        <>
+          <ClientList user={user} onEdit={(id,client) => setSelectedClient({id,client})} />
+        </>
+      )}
+    </>
+  );
+};

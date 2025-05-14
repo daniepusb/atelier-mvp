@@ -1,6 +1,6 @@
 import { deleteDoc, doc } from "firebase/firestore";
 import { ItemDoc } from "../../types/firestoreSchemas";
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX} from "../../firebaseConfig";
 
 interface Props {
   brandId: string;
@@ -11,7 +11,7 @@ interface Props {
 export const ItemList = ({ brandId, items, onDelete }: Props) => {
 
   const handleDelete = async (id: string) => {
-    await deleteDoc(doc(db, `brands/${brandId}/items/${id}`));
+    await deleteDoc(doc(db, PROJECT_PREFIX+`brands/${brandId}/items/${id}`));
     onDelete();
   };
 

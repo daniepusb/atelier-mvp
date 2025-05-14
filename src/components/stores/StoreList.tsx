@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX} from "../../firebaseConfig";
 import Table from "../lists/Table";
-import { UserRole } from '../../types/UserRole'
+import { AppUser, UserRole } from '../../types/UserRole'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 
 interface Props {
-  brandId: string;
-  role: UserRole;
+  user: AppUser
 }
 
 type Store = {
@@ -19,7 +18,7 @@ type Store = {
   zipcode: number
 };
 
-export const StoreList = ({brandId, role}: Props) => {
+export const StoreList = ({user}: Props) => {
   const [stores, setStores] = useState<any[]>([]);
   const columns = [
     {
@@ -49,7 +48,7 @@ export const StoreList = ({brandId, role}: Props) => {
   ];
   useEffect(() => {
     const fetchStores = async () => {
-      const snapshot = await getDocs(collection(db, `brands/${brandId}/stores`));
+      const snapshot = await getDocs(collection(db, PROJECT_PREFIX+`brands/${user.brandId}/stores`));
       const docs = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -58,7 +57,7 @@ export const StoreList = ({brandId, role}: Props) => {
     };
 
     fetchStores();
-  }, [brandId]);
+  }, [user.brandId]);
 
   const renderRow = (item: Store) => (
     <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight">
@@ -78,7 +77,7 @@ export const StoreList = ({brandId, role}: Props) => {
             <PencilSquareIcon className="w-5 h-5" />
             </button>
           </a>
-          {UserRole.admin === role  && (
+          {UserRole.admin === user.role  && (
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
               <TrashIcon className="w-5 h-5" />
             </button>

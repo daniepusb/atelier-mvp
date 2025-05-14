@@ -1,7 +1,7 @@
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { ItemDoc } from "../../types/firestoreSchemas";
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX } from "../../firebaseConfig";
 
 interface Props {
   brandId: string;
@@ -21,7 +21,7 @@ export const ItemForm = ({ brandId, onItemCreated }: Props) => {
       price,
     };
 
-    await addDoc(collection(db, `brands/${brandId}/items`), newItem);
+    await addDoc(collection(db, PROJECT_PREFIX+`brands/${brandId}/items`), newItem);
     setName("");
     setPrice(0);
     onItemCreated(); // avisar que se creó un nuevo item

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db, PROJECT_PREFIX} from "../../firebaseConfig";
 
 export const QuoteList = ({ brandId, userId }: { brandId: string; userId: string }) => {
   const [quotes, setQuotes] = useState<any[]>([]);
@@ -8,7 +8,7 @@ export const QuoteList = ({ brandId, userId }: { brandId: string; userId: string
   useEffect(() => {
     const fetchQuotes = async () => {
       const q = query(
-        collection(db, `brands/${brandId}/quotes`),
+        collection(db, PROJECT_PREFIX+`brands/${brandId}/quotes`),
         where("createdBy", "==", userId)
       );
       const snap = await getDocs(q);

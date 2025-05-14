@@ -1,13 +1,12 @@
 import { StoreList } from "../../components/stores/StoreList";
-import { UserRole } from "../../types/UserRole";
+import { AppUser } from "../../types/UserRole";
 
 interface Props {
-  brandId: string;
-  role: UserRole;
+  user: AppUser
 }
 
-export const StoresSection = ({ brandId, role }: Props) => (
+export const StoresSection = ( user : Props) => (
   <>
-    <StoreList brandId={brandId} role={role} />
+    <StoreList user={user.user} />
   </>
 );

@@ -33,11 +33,11 @@ export const Dashboard = ({
       case "#dress":
         return <DressSection user={user} />
       case "#clients":
-        return <ClientsSection brandId={user.brandId} role={user.role}/>;
+        return <ClientsSection user={user} />;
       case "#staff":
         return <StaffSection user={user} />;
       case "#stores":
-        return <StoresSection brandId={user.brandId} role={user.role} />;
+        return <StoresSection user={user} />;
       case "#profile":
         return <Profile user={user} />;
       case "#home":
