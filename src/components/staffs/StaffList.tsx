@@ -5,11 +5,11 @@ import Table from "../lists/Table";
 import { PencilSquareIcon, TrashIcon, EyeIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 import { StoreDoc } from "../../types/firestoreSchemas";
 import { AppUser } from "../../types/UserRole";
-import { LockOpenIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, LockOpenIcon } from "@heroicons/react/24/outline";
 
 interface Props {
   user: AppUser,
-  onEdit: (staff: AppUser) => void
+  onEdit: (uid:string, staff: AppUser) => void
 }
 
 export const StaffList = ({user, onEdit }: Props) => {
@@ -17,6 +17,7 @@ export const StaffList = ({user, onEdit }: Props) => {
   const [stores, setStores] = useState<{ id: string; data: StoreDoc }[]>([]);
 
   const fetchStaffs = async () => {
+    //console.log("✅ FetchStaffs()")
     const snapshot = await getDocs(collection(db, PROJECT_PREFIX + `brands/${user.brandId}/staff`));
     const docs = snapshot.docs.map((doc) => ({
       uid: doc.id,
@@ -41,9 +42,10 @@ export const StaffList = ({user, onEdit }: Props) => {
 
 
   const renderRow = (item: { uid: string; data: AppUser }) => {
-  const { data } = item; 
+  const { data } = item;
+  const  uid =  item.uid;
   return (
-    <tr key={item.uid} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight">
+    <tr key={uid} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight">
       <td className="flex items-center gap-4 p-4">
         <div className="flex flex-col">
           <h3 className="font-semibold">{data.name}</h3>
@@ -78,7 +80,7 @@ export const StaffList = ({user, onEdit }: Props) => {
             {/* Editar */}
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
-              onClick={() => onEdit(data)}
+              onClick={() => onEdit(uid,data)}
             >
               <PencilSquareIcon className="w-5 h-5" />
             </button>
@@ -86,7 +88,7 @@ export const StaffList = ({user, onEdit }: Props) => {
             {/* Eliminar */}
             <button
               className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple"
-              onClick={() => onEdit(data)}
+              onClick={() => onEdit(uid,data)}
             >
               <TrashIcon className="w-5 h-5" />
             </button>
@@ -106,6 +108,9 @@ export const StaffList = ({user, onEdit }: Props) => {
     <div className="w-full bg-white p-4 rounded-lg flex-1">
       <div className="flex justify-between items-center">
         <h1 className="hidden md:block text-lg font-semibold">Staff</h1>
+        <button onClick={() => fetchStaffs()} >
+          <ArrowPathIcon className="h-6 w-6  hover:bg-green-100 hover:border " />
+        </button>
       </div>
       <Table columns={columns} renderRow={renderRow} data={staffs} />
     </div>

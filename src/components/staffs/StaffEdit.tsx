@@ -7,21 +7,21 @@ import { StoreDoc } from '../../types/firestoreSchemas';
 
 interface Props {
   user: AppUser,
-  selectedStaff: AppUser,
+  selectedStaff: {uid:string, staff:AppUser},
   onBack: () => void;
 }
 
 export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
   
   const [stores, setStores] = useState<{ id: string; data: StoreDoc }[]>([]);
-  const [name, setName] = useState(selectedStaff.name);
-  const [lastName, setLastName] = useState(selectedStaff.lastName);
-  const [storeId, setStoreId] = useState(selectedStaff.storeId);
-  const [email, setEmail] = useState(selectedStaff.email);
+  const [name, setName] = useState(selectedStaff.staff.name);
+  const [lastName, setLastName] = useState(selectedStaff.staff.lastName);
+  const [storeId, setStoreId] = useState(selectedStaff.staff.storeId);
+  const [email, setEmail] = useState(selectedStaff.staff.email);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchStores = async () => {
-    const snapshot = await getDocs(collection(db, PROJECT_PREFIX + `brands/${selectedStaff.brandId}/stores`));
+    const snapshot = await getDocs(collection(db, PROJECT_PREFIX + `brands/${selectedStaff.staff.brandId}/stores`));
     const storesData = snapshot.docs.map((doc) => ({
       id: doc.id,
       data: doc.data() as StoreDoc,
@@ -30,7 +30,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
   };
 
   const fetchUserData = async () => {
-    const userRef = doc(db, PROJECT_PREFIX + `brands/${selectedStaff.brandId}/staff/${selectedStaff.uid}`);
+    const userRef = doc(db, PROJECT_PREFIX + `brands/${selectedStaff.staff.brandId}/staff/${selectedStaff.uid}`);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       const data = userSnap.data() as AppUser;
@@ -44,7 +44,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
   const updateUserProfile = async () => {
     setIsLoading(true);
     try {
-      const userRef = doc(db, PROJECT_PREFIX + `brands/${selectedStaff.brandId}/staff/${selectedStaff.uid}`);
+      const userRef = doc(db, PROJECT_PREFIX + `brands/${selectedStaff.staff.brandId}/staff/${selectedStaff.uid}`);
       await updateDoc(userRef, { name, lastName, storeId });
       console.log("✅ Perfil actualizado correctamente.");
       onBack();
@@ -116,7 +116,7 @@ export const StaffEdit = ({ user, selectedStaff, onBack }: Props) => {
                 id="brand"
                 name="brand"
                 type="brand"
-                value={selectedStaff.brandId}
+                value={selectedStaff.staff.brandId}
                 disabled
                 className="bg-white text-gray-500 cursor-not-allowed block w-full  rounded-md bg-white px-3 py-1.5 sm:text-sm/6"
               />

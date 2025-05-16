@@ -5,7 +5,7 @@ import { StaffEdit } from "../../components/staffs/StaffEdit";
 import { AppUser } from "../../types/UserRole";
 
 export const StaffSection = ({ user }: { user: AppUser }) => {
-  const [selectedStaff, setSelectedStaff] = useState<AppUser | null>(null);
+  const [selectedStaff, setSelectedStaff] = useState<{uid:string, staff:AppUser} | null>(null);
 
   return (
     <>
@@ -13,7 +13,7 @@ export const StaffSection = ({ user }: { user: AppUser }) => {
         <StaffEdit user={user} selectedStaff={selectedStaff} onBack={() => setSelectedStaff(null)} />
       ) : (
         <>
-          <StaffList user={user} onEdit={(staff) => setSelectedStaff(staff)} />
+          <StaffList user={user} onEdit={(uid,staff) => setSelectedStaff({uid,staff})} />
           <RegisterForm user={user} />
         </>
       )}
