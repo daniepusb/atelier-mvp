@@ -29,7 +29,7 @@ export const Dashboard = ({
   const renderSection = () => {
     switch (activeSection) {
       case "#stats":
-        return <StatsSection />;
+        return <StatsSection user={user} />;
       case "#items":
         return <ItemsSection user={user} />
       case "#clients":
