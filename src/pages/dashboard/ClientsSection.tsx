@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { ClientList } from "../../components/clients/ClientList";
+import { ClientsList } from "../../components/clients/ClientsList";
 import { ClientEdit } from "../../components/clients/ClientEdit";
 import { AppUser } from '../../types/UserRole'
 import { ClientDoc } from "../../types/firestoreSchemas";
 
+interface Props {
+  user: AppUser;
+}
 
-export const ClientsSection = ({user}: { user: AppUser } ) => {
+export const ClientsSection = ({user}: Props ) => {
   const [selectedClient, setSelectedClient] = useState<{id:string, client:ClientDoc} | null>(null);
  
   return (
@@ -14,7 +17,7 @@ export const ClientsSection = ({user}: { user: AppUser } ) => {
         <ClientEdit user={user} selectedClient={selectedClient} onBack={() => setSelectedClient(null)} />
       ) : (
         <>
-          <ClientList user={user} onEdit={(id,client) => setSelectedClient({id,client})} />
+          <ClientsList user={user} onEdit={(id,client) => setSelectedClient({id,client})} />
         </>
       )}
     </>

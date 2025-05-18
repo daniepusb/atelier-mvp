@@ -3,7 +3,7 @@ import { AppUser } from "../types/UserRole";
 import { Header } from "../components/layout/Header";
 import { HomeSection } from "./dashboard/HomeSection";
 import { StatsSection } from "./dashboard/StatsSection";
-import { DressSection } from "./dashboard/DressSection";
+import { ItemsSection } from "./dashboard/ItemsSection";
 import { ClientsSection } from "./dashboard/ClientsSection";
 import { StaffSection } from "./dashboard/StaffSection";
 import { StoresSection } from "./dashboard/StoresSection";
@@ -30,8 +30,8 @@ export const Dashboard = ({
     switch (activeSection) {
       case "#stats":
         return <StatsSection />;
-      case "#dress":
-        return <DressSection user={user} />
+      case "#items":
+        return <ItemsSection user={user} />
       case "#clients":
         return <ClientsSection user={user} />;
       case "#staff":

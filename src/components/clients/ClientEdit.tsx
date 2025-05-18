@@ -4,7 +4,6 @@ import { doc, getDoc, updateDoc} from 'firebase/firestore';
 import { db, PROJECT_PREFIX } from '../../firebaseConfig';
 import { ClientDoc } from '../../types/firestoreSchemas';
 
-
 interface Props {
   user: AppUser,
   selectedClient: {id:string, client:ClientDoc}
@@ -40,7 +39,7 @@ export const ClientEdit = ({ user, selectedClient, onBack }: Props) => {
     try {
       const userRef = doc(db, PROJECT_PREFIX + `brands/${user.brandId}/clients/${selectedClient.id}`);
       await updateDoc(userRef, { name, phone, measurements });
-      //onBack();
+      onBack();
       console.log("✅ Perfil actualizado correctamente.");
     } catch (error) {
       console.error("❌ Error al actualizar el perfil:", error);

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 const navigationAdmin = [
   { name: 'Inicio', href: '#home', current: true },
   { name: 'Estadísticas', href: '#stats', current: false },
-  { name: 'Prendas', href: '#dress', current: false },
+  { name: 'Prendas', href: '#items', current: false },
   { name: 'Clientes', href: '#clients', current: false },
   { name: 'Staff', href: '#staff', current: false },
   { name: 'Locales', href: '#stores', current: false },

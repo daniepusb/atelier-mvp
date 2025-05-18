@@ -11,9 +11,8 @@ interface Props {
   onEdit: (id:string, client: ClientDoc) => void
 }
 
-export const ClientList = ({ user, onEdit }: Props) => {
-
-  const [clients, setClients] = useState<{ id: string; data: ClientDoc }[]>([]);
+export const ClientsList = ({ user, onEdit }: Props) => {
+  const [clients, setClients] = useState<{ id:string; data:ClientDoc }[]>([]);
 
   const fetchClients = async () => {
     const snapshot = await getDocs(collection(db, PROJECT_PREFIX + `brands/${user.brandId}/clients`));
@@ -30,11 +29,11 @@ export const ClientList = ({ user, onEdit }: Props) => {
 
   
 
-  const renderRow = (item: { id: string, data: ClientDoc }) => {
+  const renderRow = (item: {id:string, data:ClientDoc}) => {
     const { data } = item;
     const  id =  item.id;
     return (
-      <tr className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight">
+      <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight">
         <td className="flex items-center gap-4 p-4">
           <div className="flex flex-col">
             <h3 className="font-semibold">{data.name}</h3>
@@ -53,7 +52,7 @@ export const ClientList = ({ user, onEdit }: Props) => {
         </td>
         <td>
           <div className="flex justify-end flex-row gap-2">
-            <a >
+            <a>
               <button
                 onClick={() => onEdit(id, data)}
                 className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"

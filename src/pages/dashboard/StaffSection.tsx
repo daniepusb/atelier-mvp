@@ -4,7 +4,10 @@ import { StaffList } from "../../components/staffs/StaffList";
 import { StaffEdit } from "../../components/staffs/StaffEdit";
 import { AppUser } from "../../types/UserRole";
 
-export const StaffSection = ({ user }: { user: AppUser }) => {
+interface Props {
+  user: AppUser;
+}
+export const StaffSection = ({ user }: Props) => {
   const [selectedStaff, setSelectedStaff] = useState<{uid:string, staff:AppUser} | null>(null);
 
   return (
