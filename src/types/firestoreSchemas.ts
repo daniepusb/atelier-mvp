@@ -7,7 +7,7 @@ export type UserRole = 'admin' | 'trabajador';
 export interface BrandDoc {
   name: string;
   admins: string[];
-  createdAt: Date;
+  createdAt: Timestamp;
 }
 
 export interface ItemDoc {
@@ -59,7 +59,7 @@ export interface QuoteDoc {
   }[];
   total: number;
   createdBy: string;
-  createdAt: Date;
+  createdAt: Timestamp;
 }
 
 export interface StoreDoc {

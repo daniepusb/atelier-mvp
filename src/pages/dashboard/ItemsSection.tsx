@@ -16,7 +16,6 @@ export const ItemsSection = ({user}: Props) => {
 
 return (
     <>
-      {/* Mostrar listas solo si no hay ningún item ni task seleccionado */}
       {!selectedItem && !selectedTask && (
         <>
           <ItemsList user={user} onEdit={(id, item) => setSelectedItem({ id, item })} />
@@ -24,12 +23,10 @@ return (
         </>
       )}
 
-      {/* Mostrar solo ItemEdit si hay un item seleccionado */}
       {selectedItem && (
         <ItemEdit user={user} selectedItem={selectedItem} onBack={() => setSelectedItem(null)} />
       )}
 
-      {/* Mostrar solo TaskEdit si hay una tarea seleccionada */}
       {selectedTask && (
         <TaskEdit user={user} selectedTask={selectedTask} onBack={() => setSelectedTask(null)} />
       )}

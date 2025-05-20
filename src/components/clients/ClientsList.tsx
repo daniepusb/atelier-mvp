@@ -3,15 +3,16 @@ import { collection, getDocs } from "firebase/firestore";
 import { db, PROJECT_PREFIX } from "../../firebaseConfig";
 import Table from "../lists/Table";
 import { AppUser } from '../../types/UserRole'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { PencilSquareIcon, TrashIcon, DocumentCurrencyEuroIcon } from '@heroicons/react/24/solid';
 import { ClientDoc } from "../../types/firestoreSchemas";
 
 interface Props {
   user: AppUser,
   onEdit: (id:string, client: ClientDoc) => void
+  onQuote: (id:string, client:ClientDoc) => void
 }
 
-export const ClientsList = ({ user, onEdit }: Props) => {
+export const ClientsList = ({ user, onEdit, onQuote }: Props) => {
   const [clients, setClients] = useState<{ id:string; data:ClientDoc }[]>([]);
 
   const fetchClients = async () => {
@@ -26,8 +27,6 @@ export const ClientsList = ({ user, onEdit }: Props) => {
   useEffect(() => {
     fetchClients();
   }, []);
-
-  
 
   const renderRow = (item: {id:string, data:ClientDoc}) => {
     const { data } = item;
@@ -52,17 +51,23 @@ export const ClientsList = ({ user, onEdit }: Props) => {
         </td>
         <td>
           <div className="flex justify-end flex-row gap-2">
-            <a>
-              <button
-                onClick={() => onEdit(id, data)}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
-              >
-                <PencilSquareIcon className="w-5 h-5" />
-              </button>
-            </a>
+            <button
+              onClick={() => onQuote(id, data)}
+              className="w-7 h-7 flex items-center justify-center rounded-full bg-emerald-500 text-white"
+              title="👀 Ver presupuestos"
+            >
+              <DocumentCurrencyEuroIcon className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => onEdit(id, data)}
+              className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
+              title="📝 Editar cliente"
+            >
+              <PencilSquareIcon className="w-5 h-5" />
+            </button>
             {user.isAdmin && (
               <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
-                <TrashIcon className="w-5 h-5" />
+                <TrashIcon className="w-5 h-5" title="❌Elimnar cliente"/>
               </button>
             )}
           </div>
